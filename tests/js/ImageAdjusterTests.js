@@ -66,7 +66,7 @@ jQuery(document).ready(function () {
 		jqUnit.assertTrue("Adjustments has setThreshold function", Adjustments.hasOwnProperty('setThreshold'));
 		jqUnit.assertTrue("setThreshold accepts values", Adjustments.hasOwnProperty('setThreshold')&&Adjustments.setThreshold(151));
 		jqUnit.assertTrue("Threshold value stays within bounds", 
-			Adjustments.hasOwnProperty('rotation')&&Adjustments.threshold>=0&&Adjustments.threshold<=128);
+			Adjustments.hasOwnProperty('threshold')&&Adjustments.threshold>=0&&Adjustments.threshold<=128);
 	});
 
 });
