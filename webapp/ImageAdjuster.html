@@ -1,32 +1,11 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
-                    "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
-  <link rel="stylesheet" href="http://code.jquery.com/qunit/git/qunit.css" type="text/css" media="screen" />
-  <link rel="stylesheet" href="../webapp/ImageAdjuster.css" type="text/css" media="screen" />
-	<script type="text/javascript" src="http://code.jquery.com/qunit/git/qunit.js"></script>
-	<script type="text/javascript" src="../shared/js/infusion/MyInfusion.js"></script>
-  <script type="text/javscript" src="js/qunit.js"></script>
-  <script type="text/javascript" src="js/jqUnit.js"></script> 
-
-  <script type="text/javascript" src="js/ImageAdjusterTests.js"></script>
-	
-  <!-- component dependencies -->
-
-  <!-- components being tested -->
-  <script type="text/javascript" src="../webapp/js/ImageAdjuster.js"></script>
-
+	<title>HTML5 ImageAdjuster</title>
+	<script src="js/ImageAdjuster.js"></script>
+	<style type="text/css">import 'ImageAdjuster.css';</style>
 </head>
 <body>
-  <h1 id="qunit-header">Image Adjustments Test Suite</h1>
-  <h2 id="qunit-banner"></h2>
-  <div id="qunit-testrunner-toolbar"></div>
-  <h2 id="qunit-userAgent"></h2>
-  <ol id="qunit-tests"></ol>
-  <div id="main">
-  </div>
-	
 	<!-- TEST HTML -->
   <div id="flc-image-adjuster-container">
 		<ul>
@@ -38,7 +17,7 @@
 			<img src="../webapp/demo.jpg" id="flc-image-adjuster-src" />
 		</canvas>
 		<form id="flc-image-adjuster-form">
-  		<div class="flc-image-adjuster-controls" id="flc-image-adjuster-brightness-controls">
+  		<div class="flc-image-adjuster-controls" id="flc-image-adjuster-brightness-controls" style="display:none">
 				<fieldset id="brightness">
 					<label name="Brightness Value">Brightness Value</label>
 					<input type="text" size="3" name="flc-image-adjuster-brightness" />
@@ -75,7 +54,6 @@
 				</fieldset>
 			</div>
 		</form>
-
 	</div>
 
 </body>

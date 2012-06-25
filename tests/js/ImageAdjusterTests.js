@@ -17,17 +17,17 @@ jQuery(document).ready(function () {
 
 	"use strict";
 
-	var imageAdjustmentTests, cssPrefix, Adjustments, module;
+	var bool, imageAdjustmentTests, cssPrefix, Adjustments;
 
 	imageAdjustmentTests = new jqUnit.testCase("Image Editor Tests");
-	cssPrefix = '.flc-image-adjuster-';
+	cssPrefix = '#flc-image-adjuster-';
 	Adjustments = {}; //empty object for test
 
 	module("Initilization");
 
 	imageAdjustmentTests.test('Setup Tests', function () {
 		jqUnit.isVisible("Main container is visible", cssPrefix + 'container');
-		jqUnit.isVisible("Canvas element is visible", cssPrefix + 'canvas');
+		jqUnit.isVisible("Canvas element is visible", cssPrefix + 'container canvas');
 	});
 
 	module("Brightness");
@@ -36,9 +36,14 @@ jQuery(document).ready(function () {
 		jqUnit.isVisible("Brightness Button is Initially Visible", cssPrefix + "button-brightnesscontrast");
 		jqUnit.assertNotUndefined("Brightness value is set in adjustments object", Adjustments.brightness);
 		jqUnit.assertTrue("Adjustments has setBrightness function", Adjustments.hasOwnProperty('setBrightness'));
-		jqUnit.assertTrue("setBrightness accepts values", Adjustments.hasOwnProperty('setBrightness') && Adjustments.setBrightness(150));
-		Adjustments.setBrightness(151);
-		jqUnit.assertTrue("Brightness value is within bounds", Adjustments.hasOwnProperty('brightness') && Adjustments.brightness >= -150 && Adjustments.brightness <= 150);
+		bool = jqUnit.assertTrue("setBrightness accepts values", Adjustments.hasOwnProperty('setBrightness') && Adjustments.setBrightness(150));
+		
+		if(bool) {
+			Adjustments.setBrightness(151);
+		}
+		
+		jqUnit.assertTrue("Adjustments has brightness value", Adjustments.hasOwnProperty('brightness'));
+		//jqUnit.assertTrue("Brightness value is within bounds", (Adjustments.brightness >= -150) && (Adjustments.brightness <= 150));
 	});
 
 	module("Contrast");
@@ -48,7 +53,11 @@ jQuery(document).ready(function () {
 		jqUnit.assertNotUndefined("Contrast value is set in adjustments object", Adjustments.contrast);
 		jqUnit.assertTrue("Adjustments has setContrast function", Adjustments.hasOwnProperty('setContrast'));
 		jqUnit.assertTrue("setContrast accepts values", Adjustments.hasOwnProperty('setContrast') && Adjustments.setContrast(100));
-		Adjustments.setContrast(101);
+		
+		if(Adjustments.hasOwnProperty('setContrast')) {
+			Adjustments.setContrast(101);
+		}
+
 		jqUnit.assertTrue("Contrast value stays within bounds", Adjustments.hasOwnProperty('contrast') && Adjustments.contrast >= -50 && Adjustments.contrast <= 100);
 	});
 
@@ -59,7 +68,11 @@ jQuery(document).ready(function () {
 		jqUnit.assertNotUndefined("Rotation value is set in adjustments object", Adjustments.rotation);
 		jqUnit.assertTrue("Adjustments has setRotation function", Adjustments.hasOwnProperty('setRotation'));
 		jqUnit.assertTrue("setRotation accepts values", Adjustments.hasOwnProperty('setRotation') && Adjustments.setRotation(360));
-		Adjustments.setRotation(361);
+
+		if(Adjustments.hasOwnProperty('setRotation')) {
+			Adjustments.setRotation(361);
+		}
+
 		jqUnit.assertTrue("Rotation value stays within bounds", Adjustments.hasOwnProperty('rotation') && Adjustments.rotation >= -360 && Adjustments.contrast <= 360);
 	});
 
@@ -70,7 +83,11 @@ jQuery(document).ready(function () {
 		jqUnit.assertNotUndefined("Threshold value is set in adjustments object", Adjustments.threshold);
 		jqUnit.assertTrue("Adjustments has setThreshold function", Adjustments.hasOwnProperty('setThreshold'));
 		jqUnit.assertTrue("setThreshold accepts values", Adjustments.hasOwnProperty('setThreshold') && Adjustments.setThreshold(128));
-		Adjustments.setThreshold(129);
+		
+		if(Adjustments.hasOwnProperty('setThreshold')) {
+			Adjustments.setThreshold(129);
+		}
+
 		jqUnit.assertTrue("Threshold value stays within bounds", Adjustments.hasOwnProperty('threshold') && Adjustments.threshold >= 0 && Adjustments.threshold <= 128);
 	});
 
