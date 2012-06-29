@@ -17,78 +17,64 @@ jQuery(document).ready(function () {
 
 	"use strict";
 
-	var bool, imageAdjustmentTests, cssPrefix, Adjustments;
-
-	imageAdjustmentTests = new jqUnit.testCase("Image Editor Tests");
-	cssPrefix = '#flc-image-adjuster-';
-	Adjustments = {}; //empty object for test
+	var imageAdjustmentTests;
+	
+	imageAdjustmentTests = new jqUnit.testCase("Image Editor Tests");	
 
 	module("Initilization");
 
 	imageAdjustmentTests.test('Setup Tests', function () {
-		jqUnit.isVisible("Main container is visible", cssPrefix + 'container');
-		jqUnit.isVisible("Canvas element is visible", cssPrefix + 'container canvas');
+		jqUnit.assertTrue('Fluid imageAdjuster object exists', imageAdjuster);
+		jqUnit.assertTrue('Default selectors defined', fluid.hasOwnProperty('defaults'));
+		jqUnit.assertNotUndefined("imageAdjuster has adjustments object", fluid.imageAdjuster.adjustments);
+		jqUnit.assertNotUndefined("Fluid has default values set", fluid.defaults.selectors);
+		
+		//throws an error when fluid.defaults.selectors is not defined :(
+		jQuery.each(fluid.defaults.selectors, function(k, v) {
+			jqUnit.assertTrue('Default selector '+v+' appears on page', $(v));
+		});
+
 	});
 
 	module("Brightness");
-
-	imageAdjustmentTests.test('Brightness Tests', function () {
-		jqUnit.isVisible("Brightness Button is Initially Visible", cssPrefix + "button-brightnesscontrast");
-		jqUnit.assertNotUndefined("Brightness value is set in adjustments object", Adjustments.brightness);
-		jqUnit.assertTrue("Adjustments has setBrightness function", Adjustments.hasOwnProperty('setBrightness'));
-		bool = jqUnit.assertTrue("setBrightness accepts values", Adjustments.hasOwnProperty('setBrightness') && Adjustments.setBrightness(150));
-		
-		if(bool) {
-			Adjustments.setBrightness(151);
-		}
-		
-		jqUnit.assertTrue("Adjustments has brightness value", Adjustments.hasOwnProperty('brightness'));
-		//jqUnit.assertTrue("Brightness value is within bounds", (Adjustments.brightness >= -150) && (Adjustments.brightness <= 150));
+	
+	imageAdjustmentTests.test('Brightness Tests',	function () {	
+		jqUnit.assertNotUndefined("Brightness value is set in adjustments object", fluid.imageAdjuster.adjustments.brightness);
+		jqUnit.assertTrue("Adjustments has setBrightness method", fluid.imageAdjuster.hasOwnProperty('setBrightness'));
+		jqUnit.assertTrue("setBrightness accepts values", fluid.imageAdjuster.hasOwnProperty('setBrightness') && fluid.imageAdjuster.setBrightness(50) === 50);
+		jqUnit.assertTrue("setBrightness adjusts for values below lower bound", fluid.imageAdjuster.hasOwnProperty('setBrightness') && fluid.imageAdjuster.setBrightness(-151) === -150);
+		jqUnit.assertTrue("setBrightness adjusts for values above lower bound", fluid.imageAdjuster.hasOwnProperty('setBrightness') && fluid.imageAdjuster.setBrightness(151) === 150);
 	});
 
 	module("Contrast");
 
 	imageAdjustmentTests.test('Contrast Tests', function () {
-		jqUnit.isVisible("Contrast Button is Initially Visible", cssPrefix + "button-brightnesscontrast");
-		jqUnit.assertNotUndefined("Contrast value is set in adjustments object", Adjustments.contrast);
-		jqUnit.assertTrue("Adjustments has setContrast function", Adjustments.hasOwnProperty('setContrast'));
-		jqUnit.assertTrue("setContrast accepts values", Adjustments.hasOwnProperty('setContrast') && Adjustments.setContrast(100));
-		
-		if(Adjustments.hasOwnProperty('setContrast')) {
-			Adjustments.setContrast(101);
-		}
-
-		jqUnit.assertTrue("Contrast value stays within bounds", Adjustments.hasOwnProperty('contrast') && Adjustments.contrast >= -50 && Adjustments.contrast <= 100);
+		jqUnit.assertNotUndefined("Contrast value is set in adjustments object", fluid.imageAdjuster.adjustments.contrast);
+		jqUnit.assertTrue("Adjustments has setContrast method", fluid.imageAdjuster.hasOwnProperty('setContrast'));
+		jqUnit.assertTrue("setContrast accepts values", fluid.imageAdjuster.hasOwnProperty('setContrast') && fluid.imageAdjuster.setContrast(50) === 50);
+		jqUnit.assertTrue("setContrast adjusts for values below lower bound", fluid.imageAdjuster.hasOwnProperty('setContrast') && fluid.imageAdjuster.setContrast(-151) === -150);
+		jqUnit.assertTrue("setContrast adjusts for values above lower bound", fluid.imageAdjuster.hasOwnProperty('setContrast') && fluid.imageAdjuster.setContrast(151) === 150);
 	});
+		
 
 	module("Rotation");
 
 	imageAdjustmentTests.test('Rotation Tests', function () {
-		jqUnit.isVisible("Rotation Button is Initially Visible", cssPrefix + "button-rotate");
-		jqUnit.assertNotUndefined("Rotation value is set in adjustments object", Adjustments.rotation);
-		jqUnit.assertTrue("Adjustments has setRotation function", Adjustments.hasOwnProperty('setRotation'));
-		jqUnit.assertTrue("setRotation accepts values", Adjustments.hasOwnProperty('setRotation') && Adjustments.setRotation(360));
-
-		if(Adjustments.hasOwnProperty('setRotation')) {
-			Adjustments.setRotation(361);
-		}
-
-		jqUnit.assertTrue("Rotation value stays within bounds", Adjustments.hasOwnProperty('rotation') && Adjustments.rotation >= -360 && Adjustments.contrast <= 360);
+		jqUnit.assertNotUndefined("Rotation value is set in adjustments object", fluid.imageAdjuster.adjustments.rotation);
+		jqUnit.assertTrue("Adjustments has setRotation function", fluid.imageAdjuster.hasOwnProperty('setRotate'));
+		jqUnit.assertTrue("setRotate accepts values", fluid.imageAdjuster.hasOwnProperty('setRotate') && fluid.imageAdjuster.setRotate(60) === 60);
+		jqUnit.assertTrue("setRotate adjusts for values below lower bound", fluid.imageAdjuster.hasOwnProperty('setRotate') && fluid.imageAdjuster.setRotate(-361) === -361);
+		jqUnit.assertTrue("setRotate adjusts for value above upper bound", fluid.imageAdjuster.hasOwnProperty('setRotate') && fluid.imageAdjuster.setRotate(361) === 360);
 	});
 
 	module("Threshold");
 
 	imageAdjustmentTests.test('Threshold Tests', function () {
-		jqUnit.isVisible("Threshold Button is Initially Visible", cssPrefix + ("button-threshold"));
-		jqUnit.assertNotUndefined("Threshold value is set in adjustments object", Adjustments.threshold);
-		jqUnit.assertTrue("Adjustments has setThreshold function", Adjustments.hasOwnProperty('setThreshold'));
-		jqUnit.assertTrue("setThreshold accepts values", Adjustments.hasOwnProperty('setThreshold') && Adjustments.setThreshold(128));
-		
-		if(Adjustments.hasOwnProperty('setThreshold')) {
-			Adjustments.setThreshold(129);
-		}
-
-		jqUnit.assertTrue("Threshold value stays within bounds", Adjustments.hasOwnProperty('threshold') && Adjustments.threshold >= 0 && Adjustments.threshold <= 128);
+		jqUnit.assertNotUndefined("Threshold value is set in adjustments object", fluid.imageAdjuster.adjustments.threshold);
+		jqUnit.assertTrue("Adjustments has setThreshold function", fluid.imageAdjuster.hasOwnProperty('setThreshold'));
+		jqUnit.assertTrue("setThreshold accepts values", fluid.imageAdjuster.hasOwnProperty('setThreshold') && fluid.imageAdjuster.setThreshold(128));
+		jqUnit.assertTrue("setThreshold adjusts for values below lower  bound", fluid.imageAdjuster.hasOwnProperty('setThreshold') && fluid.imageAdjuster.setThreshold(-1) === 0);
+		jqUnit.assertTrue("setThreshold adjusts for values above higher bound", fluid.imageAdjuster.hasOwnProperty('setThreshold') && fluid.imageAdjuster.setThreshold(129) === 128);	
 	});
 
 });
