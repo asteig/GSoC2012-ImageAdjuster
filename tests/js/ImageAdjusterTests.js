@@ -20,12 +20,11 @@ jQuery(document).ready(function () {
 	var imageAdjustmentTests;
 	
 	imageAdjustmentTests = new jqUnit.testCase("Image Editor Tests");	
-
 	module("Initilization");
 
 	imageAdjustmentTests.test('Setup Tests', function () {
-		jqUnit.assertTrue('Fluid imageAdjuster object exists', imageAdjuster);
-		jqUnit.assertTrue('Default selectors defined', fluid.hasOwnProperty('defaults'));
+		jqUnit.assertTrue('Fluid imageAdjuster object exists', fluid.imageAdjuster);
+		jqUnit.assertNotUndefined('Default selectors defined', fluid.defaults);
 		jqUnit.assertNotUndefined("imageAdjuster has adjustments object", fluid.imageAdjuster.adjustments);
 		jqUnit.assertNotUndefined("Fluid has default values set", fluid.defaults.selectors);
 		
@@ -61,10 +60,10 @@ jQuery(document).ready(function () {
 
 	imageAdjustmentTests.test('Rotation Tests', function () {
 		jqUnit.assertNotUndefined("Rotation value is set in adjustments object", fluid.imageAdjuster.adjustments.rotation);
-		jqUnit.assertTrue("Adjustments has setRotation function", fluid.imageAdjuster.hasOwnProperty('setRotate'));
+		jqUnit.assertTrue("ImageAdjuster has setRotation function", fluid.imageAdjuster.hasOwnProperty('setRotate'));
 		jqUnit.assertTrue("setRotate accepts values", fluid.imageAdjuster.hasOwnProperty('setRotate') && fluid.imageAdjuster.setRotate(60) === 60);
-		jqUnit.assertTrue("setRotate adjusts for values below lower bound", fluid.imageAdjuster.hasOwnProperty('setRotate') && fluid.imageAdjuster.setRotate(-361) === -361);
-		jqUnit.assertTrue("setRotate adjusts for value above upper bound", fluid.imageAdjuster.hasOwnProperty('setRotate') && fluid.imageAdjuster.setRotate(361) === 360);
+		jqUnit.assertTrue("setRotate adjusts for values below lower bound", fluid.imageAdjuster.hasOwnProperty('setRotate') && parseInt(fluid.imageAdjuster.setRotate(-361)) === parseInt(-360));
+		jqUnit.assertTrue("setRotate adjusts for value above upper bound", fluid.imageAdjuster.hasOwnProperty('setRotate') && fluid.imageAdjuster.setRotate(361) === (360));
 	});
 
 	module("Threshold");
@@ -76,5 +75,4 @@ jQuery(document).ready(function () {
 		jqUnit.assertTrue("setThreshold adjusts for values below lower  bound", fluid.imageAdjuster.hasOwnProperty('setThreshold') && fluid.imageAdjuster.setThreshold(-1) === 0);
 		jqUnit.assertTrue("setThreshold adjusts for values above higher bound", fluid.imageAdjuster.hasOwnProperty('setThreshold') && fluid.imageAdjuster.setThreshold(129) === 128);	
 	});
-
 });
