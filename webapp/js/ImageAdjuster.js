@@ -1,10 +1,30 @@
+/*
+Copyright 2012 OCAD University
+
+Licensed under the Educational Community License (ECL), Version 2.0 or the New
+BSD license. You may not use this file except in compliance with one these
+Licenses.
+
+You may obtain a copy of the ECL 2.0 License and BSD License at
+https://github.com/fluid-project/infusion/raw/master/Infusion-LICENSE.txt
+*/
+
+// Declare dependencies
+/*jQuery, fluid*/
+
+// JSLint options
+/*jslint white: true, undef: true, newcap: true, nomen: true, regexp: true, bitwise: true, browser: true, forin: true, maxerr: 100, indent: 4 */
+
 var editor = editor || {};
 
-(function ($) {
-	/*
-	* imageAdjuster component
+(function ($, fluid) {
+
+    /**
+	* ImageAdjuster Infusion Component
 	*/
-	
+
+    "use strict";
+
 	fluid.defaults("editor.imageAdjuster", {
 		gradeNames: ["fluid.viewComponent", "autoInit"],
 		preInitFunction: "editor.imageAdjuster.preInit",
@@ -36,7 +56,7 @@ var editor = editor || {};
 		contrast: 0,
 		threshold: 0,
 		rotation: 0
-	}
+	};
 		
 
 	editor.imageAdjuster.preInit = function (that) {
@@ -55,7 +75,7 @@ var editor = editor || {};
 
 	editor.imageAdjuster.postInit = function (that) {
 		that.locate('rotateMenu');
-	}
+	};
 
 	editor.imageAdjuster.setRotate = function (degree) {
 
@@ -117,6 +137,7 @@ var editor = editor || {};
 		});
 
 		rotateApply.click(function () {
+                var rotateValue;
 				rotateValue = rotateInput.val();
 				editor.imageAdjuster.setRotate(rotateValue);
 				editor.imageAdjuster.rotate(that);
@@ -125,5 +146,6 @@ var editor = editor || {};
 	};
 
 
-})(jQuery);
+}(jQuery, fluid));
+
 
