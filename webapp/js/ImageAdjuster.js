@@ -19,12 +19,12 @@ var editor = editor || {};
 
 (function ($, fluid) {
 
-    /**
+  /**
 	* ImageAdjuster Infusion Component
 	*/
 
-    "use strict";
-
+  "use strict";
+	
 	fluid.defaults("editor.imageAdjuster", {
 		gradeNames: ["fluid.viewComponent", "autoInit"],
 		preInitFunction: "editor.imageAdjuster.preInit",
@@ -38,19 +38,12 @@ var editor = editor || {};
 				brightnessMenu : '#flc-image-adjuster-brightness-controls',
 				rotateMenu : '#flc-image-adjuster-rotate-controls',
 				thresholdMenu : '#flc-image-adjuster-threshold-controls'
+		},
+		options: {
+
 		}
 	});
-
-	//creator function 
-	editor.imageAdjuster = function(container, options) {
-		var that, adjustments;
-
-		that = fluid.initView("fluid.imageAdjuster", container, options);
-		editor.imageAdjuster.preInit(that);
-		return that;
-	
-	};
-
+		
 	editor.imageAdjuster.adjustments = { 
 		brightness: 0,
 		contrast: 0,
@@ -58,12 +51,11 @@ var editor = editor || {};
 		rotation: 0
 	};
 		
-
 	editor.imageAdjuster.preInit = function (that) {
 		
 		var image;
 		//load canvas
-		//that.canvas = that.locate('canvas');
+		that.canvas = that.locate('canvas');
 		that.canvas = $('#flc-image-adjuster-canvas')[0];
 		that.ctx = that.canvas.getContext('2d');
 		that.image = new Image();
@@ -137,14 +129,13 @@ var editor = editor || {};
 		});
 
 		rotateApply.click(function () {
-                var rotateValue;
-				rotateValue = rotateInput.val();
-				editor.imageAdjuster.setRotate(rotateValue);
-				editor.imageAdjuster.rotate(that);
+    	var rotateValue;
+			rotateValue = rotateInput.val();
+			editor.imageAdjuster.setRotate(rotateValue);
+			editor.imageAdjuster.rotate(that);
 		});		
 
 	};
-
 
 }(jQuery, fluid));
 
