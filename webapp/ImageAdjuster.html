@@ -2,22 +2,21 @@
 <html>
 <head>
 	<title>HTML5 ImageAdjuster</title>
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<script type="text/javascript" src="../shared/js/infusion/MyInfusion.js"></script>
 	<script src="js/ImageAdjuster.js"></script>
 	<style type="text/css">import 'ImageAdjuster.css';</style>
 </head>
 <body>
-	<!-- TEST HTML -->
-  <div id="flc-image-adjuster-container">
+<div id="flc-image-adjuster-container">
 		<ul>
 			<li id="flc-image-adjuster-brightness">Bright / Contrast</li>
 			<li id="flc-image-adjuster-rotate">Rotate</li>
 			<li id="flc-image-adjuster-threshold">Threshold</li>
 		</ul>
-		<canvas width="750" height="750" id="flc-image-adjuster-canvas">
-			<img src="../webapp/demo.jpg" id="flc-image-adjuster-src" />
-		</canvas>
+		<canvas width="750" height="750" id="flc-image-adjuster-canvas"></canvas>
 		<form id="flc-image-adjuster-form">
-  		<div class="flc-image-adjuster-controls" id="flc-image-adjuster-brightness-controls" style="display:none">
+  		<div class="flc-image-adjuster-controls" id="flc-image-adjuster-brightness-controls">
 				<fieldset id="brightness">
 					<label name="Brightness Value">Brightness Value</label>
 					<input type="text" size="3" name="flc-image-adjuster-brightness" />
@@ -34,7 +33,7 @@
 			</div>
 
 
-  		<div class="flc-image-adjuster-controls" id="flc-image-adjuster-rotate-controls" style="display:none">
+  		<div class="flc-image-adjuster-controls" id="flc-image-adjuster-rotate-controls">
 				<fieldset id="rotate">
 					<label name="Rotate Value">Rotate Value</label>
 					<input type="text" size="3" name="flc-image-adjuster-rotate" />
@@ -42,10 +41,10 @@
 					<div class="flc-image-adjuster-plus">+</div>
 					<a class="apply" id="flc-image-adjuster-rotate-apply">APPLY</a>
 				</fieldset>
-		</div>
+			</div>
 
 	
-  		<div class="flc-image-adjuster-controls" id="flc-image-adjuster-threshold-controls" style="display: none">
+  		<div class="flc-image-adjuster-controls" id="flc-image-adjuster-threshold-controls">
 				<fieldset id="threshold">
 					<label name="Threshold Value">Threshold Value</label>
 					<input type="text" size="3" name="flc-image-adjuster-rotate" />
@@ -54,7 +53,10 @@
 				</fieldset>
 			</div>
 		</form>
-	</div>
 
+	<script>
+		editor.imageAdjuster("#flc-image-adjuster-container");
+	</script>
+	</div>
 </body>
 </html>
