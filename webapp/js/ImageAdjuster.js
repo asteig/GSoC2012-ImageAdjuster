@@ -38,9 +38,6 @@ var editor = editor || {};
 				brightnessMenu : '#flc-image-adjuster-brightness-controls',
 				rotateMenu : '#flc-image-adjuster-rotate-controls',
 				thresholdMenu : '#flc-image-adjuster-threshold-controls'
-		},
-		options: {
-
 		}
 	});
 		
