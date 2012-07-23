@@ -38,7 +38,7 @@ body {
 	background: #85B466;
 }
 
-.flc-image-adjuster-controls {
+#flc-image-adjuster-controls {
 	background: #85B466;
 	float: left;
 	clear: both;
@@ -46,9 +46,17 @@ body {
 	font-size: 1.6em;
 	position: absolute;
 	top: 4em;
+	display: none;
 }
 
-.flc-image-adjuster-controls input {
+#flc-image-adjuster-brightness-controls, 
+#flc-image-adjuster-contrast-controls,
+#flc-image-adjuster-rotate-controls,
+#flc-image-adjuster-threshold-controls {
+  display: none;
+}
+
+#flc-image-adjuster-controls input {
 	border: 1px #000 solid;
 	clear: both;
 	float: left;
@@ -57,7 +65,7 @@ body {
 	text-align: center;
 }
 
-.flc-image-adjuster-controls fieldset {
+#flc-image-adjuster-controls fieldset {
 	border: 0;
 	margin: .6em 0;
 	padding: 0;
@@ -76,7 +84,8 @@ body {
   width: 1em;
 }
 
-.flc-image-adjuster-controls .apply {
+#flc-image-adjuster-controls #flc-image-adjuster-apply-btn {
+	clear: both;
 	background: #fff;
 	display: block;
 	font-size: 2em;

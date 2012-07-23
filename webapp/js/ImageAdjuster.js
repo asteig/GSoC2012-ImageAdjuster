@@ -24,70 +24,81 @@ var editor = editor || {};
 	*/
 
   "use strict";
-	
+  	
 	fluid.defaults("editor.imageAdjuster", {
 		gradeNames: ["fluid.viewComponent", "autoInit"],
-		preInitFunction: "editor.imageAdjuster.preInit",
-		postInitFunction: "editor.imageAdjuster.postInit",
-		selectors : {
+		postInitFunction: 'editor.imageAdjuster.postInit',
+    selectors : {
 				container : '#flc-image-adjuster-container',
 				canvas : '#flc-image-adjuster-canvas',
 				brightnessTab : '#flc-image-adjuster-brightness',
 				rotateTab : '#flc-image-adjuster-rotate',
 				thresholdTab : '#flc-image-adjuster-threshold',
-				brightnessMenu : '#flc-image-adjuster-brightness-controls',
+				menuWrap : '#flc-image-adjuster-controls',
+        brightnessMenu : '#flc-image-adjuster-brightness-controls',
 				rotateMenu : '#flc-image-adjuster-rotate-controls',
-				thresholdMenu : '#flc-image-adjuster-threshold-controls'
+				thresholdMenu : '#flc-image-adjuster-threshold-controls',
+        brightnessInput : '[name=flc-image-adjuster-brightness]',
+        contrastInput : '[name=flc-image-adjuster-contrast]',
+        rotationInput : '[name=flc-image-adjuster-rotation]',
+        thresholdInput : '[name=flc-image-adjuster-threshold]'
 		}
 	});
 		
-	editor.imageAdjuster.adjustments = { 
+  editor.imageAdjuster.adjustments = { 
 		brightness: 0,
 		contrast: 0,
 		threshold: 0,
 		rotation: 0
 	};
 		
-	editor.imageAdjuster.preInit = function (that) {
-		
-		var image;
-		//load canvas
-		that.canvas = that.locate('canvas');
-		that.canvas = $('#flc-image-adjuster-canvas')[0];
-		that.ctx = that.canvas.getContext('2d');
-		that.image = new Image();
-		that.image.src = '../webapp/demo.jpg';
-		that.ctx.drawImage(that.image, 0, 0);
-		
-		editor.imageAdjuster.bindEvents(that);
+	editor.imageAdjuster.setValues = function (that) {
+
+		var bounds, key, maxVal, minVal, value;
+
+    bounds = {
+      'brightness': {'min': -150, 'max': 150},
+      'contrast': {'min': -150, 'max': 150},
+      'rotation': {'min': -360, 'max': 360},
+      'threshold': {'min': 1, 'max': 180}
+    };
+   
+    $.each(bounds, function (k, v) {
+
+      //get value from appropriate input
+      value = that.locate(k+'Input').val();
+      key = k;
+      minVal = v.min;
+      maxVal = v.max;
+      
+      if(value <= minVal) {
+        value = minVal;  
+      }
+
+      if(value >= maxVal) {
+        value = maxVal;
+      }
+
+      //TODO: refactor eval
+      if(value) {
+        eval('editor.imageAdjuster.adjustments.'+k+' = '+value);
+      }
+
+    });
+
+    return editor.imageAdjuster.adjustments;
+
 	};
 
-	editor.imageAdjuster.postInit = function (that) {
-		that.locate('rotateMenu');
-	};
-
-	editor.imageAdjuster.setRotate = function (degree) {
-
-		var maxVal, minVal;
-
-		//bounds check
-		maxVal = 360;
-		minVal = -360;
-		
-		if(degree <= minVal) {
-			degree = minVal;
-		}		
-		else if(degree >= maxVal) {
-			degree = maxVal;
-		}
-
-		editor.imageAdjuster.adjustments.rotation += degree;
-		
-		return degree;
-
-	};
+  editor.imageAdjuster.applyBrightness = function(that) {
+    return true;  
+  }
 	
-	editor.imageAdjuster.rotate = function(that) {
+  editor.imageAdjuster.applyContrast = function(that) {
+    return true;
+  }
+
+	editor.imageAdjuster.applyRotation = function(that) {
 		
 		var centerX, centerY, degrees, radians;
 		
@@ -96,7 +107,7 @@ var editor = editor || {};
 		degrees = editor.imageAdjuster.adjustments.rotation;
 		radians = degrees*Math.PI/180;
 		
-		//rotate canvas
+    //rotate canvas
 		that.ctx.save();
 		that.ctx.translate(centerX, centerY);
 		that.ctx.rotate(radians);
@@ -108,31 +119,72 @@ var editor = editor || {};
 
 	};
 
+  editor.imageAdjuster.applyThreshold = function (that) {
+    return true;  
+  }
+
 	editor.imageAdjuster.bindEvents = function (that) {
 		
-		var rotateTab, rotateMenu, rotateInput, rotateApply, activeMenu;
+		var rotateTab, rotateMenu, rotateInput, rotateApply, applyChangesBtn, menuWrap;
 		
-		//rotateTab = that.locate('rotateTab');
-		rotateTab = $('#flc-image-adjuster-rotate');
-		rotateMenu = $('#flc-image-adjuster-rotate-controls');
-		rotateInput = $('[name=flc-image-adjuster-rotate]');
-		rotateApply = $('#flc-image-adjuster-rotate-apply');
+		rotateTab = that.locate('rotateTab');
+    rotateMenu = that.locate('rotateMenu'); 
+    
+    applyChangesBtn = that.locate('applyChangesBtn');
 
-		activeMenu = $('.flc-image-adjuster-controls');
+    menuWrap = that.locate('menuWrap');
+		
+    rotateTab.click(function () {
+		  menuWrap.show();
+      rotateMenu.show();
+    });
 
-		rotateTab.click(function () {
-			activeMenu.hide();
-			rotateMenu.show();
-		});
+		applyChangesBtn.click(function () {
 
-		rotateApply.click(function () {
-    	var rotateValue;
-			rotateValue = rotateInput.val();
-			editor.imageAdjuster.setRotate(rotateValue);
-			editor.imageAdjuster.rotate(that);
+      editor.imageAdjuster.loadCanvas(that);
+    	
 		});		
+    
+    return that;
 
 	};
+
+  editor.imageAdjuster.postInit = function (that) {
+		
+    editor.imageAdjuster.loadCanvas(that); 
+    editor.imageAdjuster.bindEvents(that);
+    
+    return that;	
+	
+  };
+
+  editor.imageAdjuster.loadCanvas = function (that) {
+
+		that.canvas = that.locate('canvas');
+		that.canvas = that.canvas[0];
+		that.ctx = that.canvas.getContext('2d');
+		that.image = new Image();
+  	that.image.src = '../webapp/demo.jpg';
+		that.ctx.drawImage(that.image, 0, 0);
+    
+    editor.imageAdjuster.applyValues(that);
+ 
+    return that;
+
+  }
+
+  editor.imageAdjuster.applyValues = function (that) {
+
+    editor.imageAdjuster.setValues(that);
+    
+    editor.imageAdjuster.applyBrightness(that);
+    editor.imageAdjuster.applyContrast(that);
+    editor.imageAdjuster.applyRotation(that);
+    editor.imageAdjuster.applyThreshold(that);
+   
+    return that;
+
+  }
 
 }(jQuery, fluid));
 
