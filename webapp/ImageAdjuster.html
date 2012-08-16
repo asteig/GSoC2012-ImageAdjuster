@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 <html>
 <head>
 	<title>HTML5 ImageAdjuster</title>
@@ -9,56 +11,47 @@
 </head>
 <body>
 <div id="flc-image-adjuster-container">
-		<ul>
-			<li id="flc-image-adjuster-brightness">Bright / Contrast</li>
-			<li id="flc-image-adjuster-rotate">Rotate</li>
-			<li id="flc-image-adjuster-threshold">Threshold</li>
-		</ul>
-		<canvas width="750" height="750" id="flc-image-adjuster-canvas"></canvas>
-		<form id="flc-image-adjuster-form">
-  		<div id="flc-image-adjuster-controls"> 
+    <ul>
+        <li id="flc-image-adjuster-brightness">Bright / Contrast</li>
+        <li id="flc-image-adjuster-rotate">Rotate</li>
+        <li id="flc-image-adjuster-threshold">Threshold</li>
+    </ul>
+    <canvas width="750" height="750" id="flc-image-adjuster-canvas"></canvas>
+    <form id="flc-image-adjuster-form">
+        <div id="flc-image-adjuster-controls"> 
         
-        <div id="flc-image-adjuster-brightness-controls">
-          <fieldset id="brightness">
-            <label name="Brightness Value">Brightness Value</label>
-            <input type="text" size="3" name="flc-image-adjuster-brightness" />
-            <div class="flc-image-adjuster-minus">-</div>
-            <div class="flc-image-adjuster-plus">+</div>
-          </fieldset>
-          <fieldset id="contrast">
-            <label name="Contrast Value">Contrast Value</label>
-            <input type="text" size="3" name="flc-image-adjuster-contrast" />
-            <div class="flc-image-adjuster-minus">-</div>
-            <div class="flc-image-adjuster-plus">+</div>
-          </fieldset>
-        </div>
+            <div id="flc-image-adjuster-brightness-controls">
+              <fieldset id="brightness">
+                <label name="Brightness Value">Brightness Value</label>
+                <input type="text" size="3" name="flc-image-adjuster-brightness" value="0" />
+              </fieldset>
+              <fieldset id="contrast">
+                <label name="Contrast Value">Contrast Value</label>
+                <input type="text" size="3" name="flc-image-adjuster-contrast" value="0" />
+              </fieldset>
+            </div>
 
-        <div id="flc-image-adjuster-rotate-controls">
-          <fieldset id="rotate">
-            <label name="Rotate Value">Rotate Value</label>
-            <input type="text" size="3" name="flc-image-adjuster-rotation" />
-            <div class="flc-image-adjuster-minus">-</div>
-            <div class="flc-image-adjuster-plus">+</div>
-          </fieldset>
-        </div>
-    
-        <div id="flc-image-adjuster-threshold-controls">
-          <fieldset id="threshold">
-            <label name="Threshold Value">Threshold Value</label>
-            <input type="text" size="3" name="flc-image-adjuster-threshold" />
-            <div class="flc-image-adjuster-minus">-</div>
-            <div class="flc-image-adjuster-plus">+</div>
-          </fieldset>
-        </div>
+            <div id="flc-image-adjuster-rotate-controls">
+              <fieldset id="rotate">
+                <label name="Rotate Value">Rotate Value</label>
+                <input type="text" size="3" name="flc-image-adjuster-rotation" value="0" />
+              </fieldset>
+            </div>
+
+            <div id="flc-image-adjuster-threshold-controls">
+              <fieldset id="threshold">
+                <label name="Threshold Value">Threshold Value</label>
+                <input type="text" size="3" name="flc-image-adjuster-threshold" value="0" />
+              </fieldset>
+            </div>
+            
+            <a id="flc-image-adjuster-apply-btn">APPLY</a>
         
-        <a id="flc-image-adjuster-apply-btn">APPLY</a>
-        
-      </div>
+        </div>
     </form>
-
-	<script>
-		editor.imageAdjuster("#flc-image-adjuster-container");
-	</script>
-	</div>
+</div>
+<script>
+	editor.imageAdjuster("#flc-image-adjuster-container");
+</script>
 </body>
 </html>

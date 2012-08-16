@@ -18,7 +18,7 @@ https://github.com/fluid-project/infusion/raw/master/Infusion-LICENSE.txt
 var editor = editor || {};
 
 (function ($, fluid) {
-
+    
     /**
      * ImageAdjuster Infusion Component
      */
@@ -41,20 +41,20 @@ var editor = editor || {};
             brightnessInput: '[name=flc-image-adjuster-brightness]',
             contrastInput: '[name=flc-image-adjuster-contrast]',
             rotationInput: '[name=flc-image-adjuster-rotation]',
-            thresholdInput: '[name=flc-image-adjuster-threshold]'
+            thresholdInput: '[name=flc-image-adjuster-threshold]',
+            applyChangesBtn: '#flc-image-adjuster-apply-btn'
+        },
+        model: {
+            brightness: 0,
+            contrast: 0,
+            rotation: 0,
+            threshold: 0
         }
     });
 
-    editor.imageAdjuster.adjustments = {
-        brightness: 0,
-        contrast: 0,
-        threshold: 0,
-        rotation: 0
-    };
-
     editor.imageAdjuster.setValues = function (that) {
 
-        var bounds, key, maxVal, minVal, value;
+        var bounds, maxVal, minVal, value;
 
         bounds = {
             'brightness': {
@@ -79,7 +79,6 @@ var editor = editor || {};
 
             //get value from appropriate input
             value = that.locate(k + 'Input').val();
-            key = k;
             minVal = v.min;
             maxVal = v.max;
 
@@ -91,23 +90,37 @@ var editor = editor || {};
                 value = maxVal;
             }
 
-            //TODO: refactor eval
             if (value) {
-                eval('editor.imageAdjuster.adjustments.' + k + ' = ' + value);
+               that.model[k]  = value;
             }
 
         });
 
-        return editor.imageAdjuster.adjustments;
+        return that.model;
 
     };
 
     editor.imageAdjuster.applyBrightness = function (that) {
-        return true;
+
+        var imageData, d;
+       
+        that.ctx.drawImage(that.image, 0, 0);
+        that.imageData = that.ctx.getImageData(0, 0, that.canvas.width, that.canvas.height);
+        
+        that.d = that.imageData.data;
+        
+        for (var i=0; i < that.d.length; i += 4) {
+            that.d[i] += that.model.brightness; 
+            that.d[i+1] += that.model.brightness;
+            that.d[i+2] += that.model.brightness;
+        }
+        
+        return that;
+         
     };
 
     editor.imageAdjuster.applyContrast = function (that) {
-        return true;
+        
     };
 
     editor.imageAdjuster.applyRotation = function (that) {
@@ -116,7 +129,7 @@ var editor = editor || {};
 
         centerX = that.canvas.width / 2;
         centerY = that.canvas.height / 2;
-        degrees = editor.imageAdjuster.adjustments.rotation;
+        degrees = that.model.rotation;
         radians = degrees * Math.PI / 180;
 
         //rotate canvas
@@ -124,12 +137,12 @@ var editor = editor || {};
         that.ctx.translate(centerX, centerY);
         that.ctx.rotate(radians);
         that.ctx.translate(-(centerX), -(centerY));
-        that.ctx.drawImage(that.image, 0, 0);
-        that.ctx.restore();
+        //that.ctx.drawImage(that.image, 0, 0);
+        //that.ctx.restore();
 
         return true;
 
-    };
+    }
 
     editor.imageAdjuster.applyThreshold = function (that) {
         return true;
@@ -137,26 +150,64 @@ var editor = editor || {};
 
     editor.imageAdjuster.bindEvents = function (that) {
 
-        var rotateTab, rotateMenu, applyChangesBtn, menuWrap;
+        var brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap;
+
+        brightnessTab = that.locate('brightnessTab');
+        brightnessMenu = that.locate('brightnessMenu');
 
         rotateTab = that.locate('rotateTab');
         rotateMenu = that.locate('rotateMenu');
+        
+        thresholdTab = that.locate('thresholdTab');
+        thresholdMenu = that.locate('thresholdMenu');
 
         applyChangesBtn = that.locate('applyChangesBtn');
 
         menuWrap = that.locate('menuWrap');
 
+        brightnessTab.click(function () {
+            menuWrap.show();
+            rotateMenu.hide();
+            thresholdMenu.hide();
+            brightnessMenu.show();
+        });
+
         rotateTab.click(function () {
             menuWrap.show();
+            brightnessMenu.hide();
+            thresholdMenu.hide();
             rotateMenu.show();
         });
-
+        
+        thresholdTab.click(function () {
+            menuWrap.show();
+            brightnessMenu.hide();
+            rotateMenu.hide();
+            thresholdMenu.show();
+        });
+                
         applyChangesBtn.click(function () {
-
             editor.imageAdjuster.loadCanvas(that);
-
         });
 
+    
+        $('input').keydown(function (e) {
+            
+            var inputValue;
+            
+            inputValue = parseInt($(this).val());
+            
+            var charCode = e.which || e.keyCode;
+           
+            if(charCode == 38) {
+                $(this).val(inputValue+1);
+            }
+            else if(charCode == 40) {
+                $(this).val(inputValue-1);    
+            }
+        
+        })
+        
         return that;
 
     };
@@ -181,6 +232,8 @@ var editor = editor || {};
 
         editor.imageAdjuster.applyValues(that);
 
+        that.ctx.putImageData(that.imageData, 0, 0);
+
         return that;
 
     };
@@ -188,11 +241,11 @@ var editor = editor || {};
     editor.imageAdjuster.applyValues = function (that) {
 
         editor.imageAdjuster.setValues(that);
-
+//        editor.imageAdjuster.applyContrast(that); 
         editor.imageAdjuster.applyBrightness(that);
-        editor.imageAdjuster.applyContrast(that);
         editor.imageAdjuster.applyRotation(that);
-        editor.imageAdjuster.applyThreshold(that);
+//        editor.imageAdjuster.applyThreshold(that);
+        
 
         return that;
 
