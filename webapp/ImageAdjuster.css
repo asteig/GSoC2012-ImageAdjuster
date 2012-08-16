@@ -71,19 +71,6 @@ body {
 	padding: 0;
 }
 
-.flc-image-adjuster-plus, .flc-image-adjuster-minus {
-	background: #5E8047;
-	border: 1px #fff solid; 
-  color: #FFFFFF;
-  display: block;
-	float: left;
-  font-size: 1.8em;
-  height: 1.1em;
-	margin-right: .3em;
-  text-align: center;
-  width: 1em;
-}
-
 #flc-image-adjuster-controls #flc-image-adjuster-apply-btn {
 	clear: both;
 	background: #fff;
@@ -94,4 +81,8 @@ body {
 	margin-top: .4em;
 }
 
-
+a.shortcuts-link {
+  color: #88B569;
+  font-weight: bold;
+  text-align: right;  
+}
