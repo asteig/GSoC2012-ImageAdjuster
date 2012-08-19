@@ -299,7 +299,7 @@ var editor = editor || {};
 
         editor.imageAdjuster.setValues(that);
         editor.imageAdjuster.applyContrast(that); 
-        editor.imageAdjuster.applyTheshold(that);
+        editor.imageAdjuster.applyThreshold(that);
         editor.imageAdjuster.applyBrightness(that);
 
         that.ctx.putImageData(that.imageData, 0, 0);
