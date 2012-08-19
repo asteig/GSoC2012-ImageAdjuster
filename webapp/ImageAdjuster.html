@@ -12,9 +12,9 @@
 <body>
 <div id="flc-image-adjuster-container">
     <ul>
-        <li id="flc-image-adjuster-brightness">Bright / Contrast</li>
-        <li id="flc-image-adjuster-rotate">Rotate</li>
-        <li id="flc-image-adjuster-threshold">Threshold</li>
+        <li><a id="flc-image-adjuster-brightness">Brightness</a></li>
+        <li><a id="flc-image-adjuster-rotate">Rotate</a></li>
+        <li><a id="flc-image-adjuster-threshold">Threshold</a></li>
     </ul>
     <canvas width="750" height="750" id="flc-image-adjuster-canvas"></canvas>
     <form id="flc-image-adjuster-form">
@@ -50,6 +50,9 @@
         </div>
     </form>
     <a class="shortcuts-link">View Keyboard Shortcuts</a>
+    <div id="flc-image-adjuster-shortcut-menu">
+        
+    </div>
 </div>
 <script>
 	editor.imageAdjuster("#flc-image-adjuster-container");

@@ -21,8 +21,12 @@ body {
 }
 
 #flc-image-adjuster-container ul li {
-	display: inline-block;
-	background: #969696;
+    display: inline-block;
+}
+
+#flc-image-adjuster-container ul li a {
+	display: block;
+    background: #969696;
 	border: 1px #85B466 solid;
 	color: #fff;
 	font-weight: bold;
@@ -34,7 +38,7 @@ body {
 	cursor: pointer;
 }
 
-#flc-image-adjuster-container ul li:hover {
+#flc-image-adjuster-container ul li a:hover, #flc-image-adjuster-container ul li a:focus {
 	background: #85B466;
 }
 
@@ -86,3 +90,4 @@ a.shortcuts-link {
   font-weight: bold;
   text-align: right;  
 }
+

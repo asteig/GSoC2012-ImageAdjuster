@@ -42,14 +42,16 @@ var editor = editor || {};
             contrastInput: '[name=flc-image-adjuster-contrast]',
             rotationInput: '[name=flc-image-adjuster-rotation]',
             thresholdInput: '[name=flc-image-adjuster-threshold]',
-            applyChangesBtn: '#flc-image-adjuster-apply-btn'
+            applyChangesBtn: '#flc-image-adjuster-apply-btn',
+            shortcutMenu: '#flc-image-adjuster-shortcut-menu',
         },
         model: {
             brightness: 0,
             contrast: 0,
             rotation: 0,
             threshold: 0
-        }
+        },
+        imgSrc: '../webapp/demo.jpg'
     });
 
     editor.imageAdjuster.setValues = function (that) {
@@ -70,7 +72,7 @@ var editor = editor || {};
                 'max': 360
             },
             'threshold': {
-                'min': 1,
+                'min': 0,
                 'max': 180
             }
         };
@@ -102,17 +104,14 @@ var editor = editor || {};
 
     editor.imageAdjuster.applyBrightness = function (that) {
 
-        var imageData, d;
-       
-        that.ctx.drawImage(that.image, 0, 0);
-        that.imageData = that.ctx.getImageData(0, 0, that.canvas.width, that.canvas.height);
-        
-        that.d = that.imageData.data;
-        
-        for (var i=0; i < that.d.length; i += 4) {
-            that.d[i] += that.model.brightness; 
-            that.d[i+1] += that.model.brightness;
-            that.d[i+2] += that.model.brightness;
+        if(that.model.brightness == 0) {
+            return that;    
+        }
+
+        for (var i=0; i < that.pixels.length; i += 4) {
+            that.pixels[i] += that.model.brightness; 
+            that.pixels[i+1] += that.model.brightness;
+            that.pixels[i+2] += that.model.brightness;
         }
         
         return that;
@@ -126,44 +125,70 @@ var editor = editor || {};
     editor.imageAdjuster.applyRotation = function (that) {
 
         var centerX, centerY, degrees, radians;
-
+       
+        if(that.prevDegrees && that.prevDegrees == that.model.rotation) {
+            return that;
+        }
+        
+        degrees = that.model.rotation;
+        
+        if(that.prevDegrees) { 
+            degrees = degrees - that.prevDegrees;
+        }
+        
         centerX = that.canvas.width / 2;
         centerY = that.canvas.height / 2;
-        degrees = that.model.rotation;
         radians = degrees * Math.PI / 180;
-
+        
         //rotate canvas
-        that.ctx.save();
         that.ctx.translate(centerX, centerY);
         that.ctx.rotate(radians);
         that.ctx.translate(-(centerX), -(centerY));
-        //that.ctx.drawImage(that.image, 0, 0);
-        //that.ctx.restore();
 
-        return true;
+        that.prevDegrees = that.model.rotation;
+
+        return that;
 
     }
 
     editor.imageAdjuster.applyThreshold = function (that) {
-        return true;
+
+        if(that.model.threshold == "0") {
+            return that;
+        }
+        
+        for (var i=0; i<that.pixels.length; i+=4) {
+            var r = that.pixels[i];
+            var g = that.pixels[i+1];
+            var b = that.pixels[i+2];
+            var v = (0.2126*r + 0.7152*g + 0.0722*b >= that.model.threshold) ? 255 : 0;
+            that.pixels[i] = that.pixels[i+1] = that.pixels[i+2] = v;
+        }
+        
+        return that;
     }
 
     editor.imageAdjuster.bindEvents = function (that) {
 
-        var brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap;
+        var container, brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap, shortcutMenu;
+
+        container = that.locate('container');
 
         brightnessTab = that.locate('brightnessTab');
         brightnessMenu = that.locate('brightnessMenu');
 
         rotateTab = that.locate('rotateTab');
         rotateMenu = that.locate('rotateMenu');
-        
+        rotateTab.fluid('tabbable');
+         
         thresholdTab = that.locate('thresholdTab');
         thresholdMenu = that.locate('thresholdMenu');
 
         applyChangesBtn = that.locate('applyChangesBtn');
 
         menuWrap = that.locate('menuWrap');
+
+        shortcutMenu = that.locate('shortcutMenu');
 
         brightnessTab.click(function () {
             menuWrap.show();
@@ -187,17 +212,46 @@ var editor = editor || {};
         });
                 
         applyChangesBtn.click(function () {
-            editor.imageAdjuster.loadCanvas(that);
+            editor.imageAdjuster.applyValues(that);
         });
 
+        $(document.body).keydown(function (e) { 
+            
+            if(e.ctrlKey) {
+                if(e.keyCode == 49) {
+                    brightnessTab.trigger('click');
+                }
+
+                if(e.keyCode == 50) {
+                    rotateTab.trigger('click');
+                }
+
+                if(e.keyCode == 51) {
+                    thresholdTab.trigger('click');
+                }
+
+                if(e.keyCode == 48) {
+                    //shortcut open
+                }
+            }
+
+            if(e.keyCode == 27) {
+                //close all dialogs
+                menuWrap.hide();
+                shortcutMenu.hide();
+            }
+
+            
+
+        }); 
     
         $('input').keydown(function (e) {
             
-            var inputValue;
+            var inputValue, charCode;
             
             inputValue = parseInt($(this).val());
             
-            var charCode = e.which || e.keyCode;
+            charCode = e.which || e.keyCode;
            
             if(charCode == 38) {
                 $(this).val(inputValue+1);
@@ -227,13 +281,9 @@ var editor = editor || {};
         that.canvas = that.canvas[0];
         that.ctx = that.canvas.getContext('2d');
         that.image = new Image();
-        that.image.src = '../webapp/demo.jpg';
+        that.image.src = that.options.imgSrc;
         that.ctx.drawImage(that.image, 0, 0);
-
-        editor.imageAdjuster.applyValues(that);
-
-        that.ctx.putImageData(that.imageData, 0, 0);
-
+      
         return that;
 
     };
@@ -241,12 +291,19 @@ var editor = editor || {};
     editor.imageAdjuster.applyValues = function (that) {
 
         editor.imageAdjuster.setValues(that);
-//        editor.imageAdjuster.applyContrast(that); 
-        editor.imageAdjuster.applyBrightness(that);
         editor.imageAdjuster.applyRotation(that);
-//        editor.imageAdjuster.applyThreshold(that);
-        
+        that.ctx.drawImage(that.image, 0, 0);
 
+        that.imageData = that.ctx.getImageData(0, 0, that.canvas.width, that.canvas.height);
+        that.pixels = that.imageData.data;
+
+        editor.imageAdjuster.setValues(that);
+        editor.imageAdjuster.applyContrast(that); 
+        editor.imageAdjuster.applyTheshold(that);
+        editor.imageAdjuster.applyBrightness(that);
+
+        that.ctx.putImageData(that.imageData, 0, 0);
+        
         return that;
 
     };
