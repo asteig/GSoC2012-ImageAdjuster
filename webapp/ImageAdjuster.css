@@ -4,6 +4,10 @@ body {
 	font-family: Arial;
 }
 
+#flc-image-adjuster-container a {
+    text-decoration: none;
+}
+
 #flc-image-adjuster-container {
 	position: relative;
 }
@@ -36,6 +40,10 @@ body {
 	margin: .1em;
 	text-align: center;
 	cursor: pointer;
+}
+
+#flc-image-adjuster-container input:focus, #flc-image-adjuster-container input:hover {
+    background: #FFFF66;
 }
 
 #flc-image-adjuster-container ul li a:hover, #flc-image-adjuster-controls a:hover, #flc-image-adjuster-container ul li a:focus {
@@ -110,8 +118,8 @@ a.shortcuts-link {
     float: right;
     display: none;
     position: absolute;
-    left: 22em;
-    top: 4em;
+    left: 4em;
+    bottom: 4em;
 }
 
 #flc-image-adjuster-shortcut-menu h2 {
@@ -130,3 +138,4 @@ a.shortcuts-link {
     font-family: Courier;
     float: right;
 }
+

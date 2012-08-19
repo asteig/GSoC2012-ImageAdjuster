@@ -43,8 +43,10 @@ var editor = editor || {};
             rotationInput: '[name=flc-image-adjuster-rotation]',
             thresholdInput: '[name=flc-image-adjuster-threshold]',
             applyChangesBtn: '#flc-image-adjuster-apply-btn',
+            cancelDialogBtn: '#flc-image-adjuster-cancel-btn',
             shortcutLink: '#flc-image-adjuster-shortcut-link',
             shortcutMenu: '#flc-image-adjuster-shortcut-menu',
+            imgSaveBtn: '#flc-image-adjuster-save-btn'
         },
         model: {
             brightness: 0,
@@ -171,7 +173,7 @@ var editor = editor || {};
 
     editor.imageAdjuster.bindEvents = function (that) {
 
-        var container, brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap, shortcutLink, shortcutMenu;
+        var container, brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap, shortcutLink, shortcutMenu, cancelDialogBtn, imgSaveBtn;
 
         container = that.locate('container');
 
@@ -186,11 +188,14 @@ var editor = editor || {};
         thresholdMenu = that.locate('thresholdMenu');
 
         applyChangesBtn = that.locate('applyChangesBtn');
+        cancelDialogBtn = that.locate('cancelDialogBtn');    
 
         menuWrap = that.locate('menuWrap');
 
         shortcutLink = that.locate('shortcutLink');
         shortcutMenu = that.locate('shortcutMenu');
+
+        imgSaveBtn = that.locate('imgSaveBtn');
 
         brightnessTab.click(function () {
             menuWrap.show();
@@ -212,14 +217,27 @@ var editor = editor || {};
             rotateMenu.hide();
             thresholdMenu.show();
         });
+
+        imgSaveBtn.click(function (e) {
+            var url = that.canvas.toDataURL();
+            imgSaveBtn.attr('href', url);
+            imgSaveBtn.attr('target', '_blank');
+        });
                 
         applyChangesBtn.click(function () {
             editor.imageAdjuster.applyValues(that);
         });
 
-
+        cancelDialogBtn.click(function () {
+            menuWrap.hide();
+            brightnessMenu.hide();
+            rotateMenu.hide();
+            thresholdMenu.hide();    
+        });
+       
+        
         shortcutLink.click(function (e) {
-          console.log('here?');  
+            
             e.preventDefault();
 
             menuWrap.hide();
@@ -227,6 +245,7 @@ var editor = editor || {};
             rotateMenu.hide();
             thresholdMenu.hide();
             shortcutMenu.show();
+        
         });
 
         $(document.body).keydown(function (e) { 
@@ -254,8 +273,6 @@ var editor = editor || {};
                 menuWrap.hide();
                 shortcutMenu.hide();
             }
-
-            
 
         }); 
     
