@@ -43,6 +43,7 @@ var editor = editor || {};
             rotationInput: '[name=flc-image-adjuster-rotation]',
             thresholdInput: '[name=flc-image-adjuster-threshold]',
             applyChangesBtn: '#flc-image-adjuster-apply-btn',
+            shortcutLink: '#flc-image-adjuster-shortcut-link',
             shortcutMenu: '#flc-image-adjuster-shortcut-menu',
         },
         model: {
@@ -170,7 +171,7 @@ var editor = editor || {};
 
     editor.imageAdjuster.bindEvents = function (that) {
 
-        var container, brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap, shortcutMenu;
+        var container, brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap, shortcutLink, shortcutMenu;
 
         container = that.locate('container');
 
@@ -188,6 +189,7 @@ var editor = editor || {};
 
         menuWrap = that.locate('menuWrap');
 
+        shortcutLink = that.locate('shortcutLink');
         shortcutMenu = that.locate('shortcutMenu');
 
         brightnessTab.click(function () {
@@ -213,6 +215,18 @@ var editor = editor || {};
                 
         applyChangesBtn.click(function () {
             editor.imageAdjuster.applyValues(that);
+        });
+
+
+        shortcutLink.click(function (e) {
+          console.log('here?');  
+            e.preventDefault();
+
+            menuWrap.hide();
+            brightnessMenu.hide();
+            rotateMenu.hide();
+            thresholdMenu.hide();
+            shortcutMenu.show();
         });
 
         $(document.body).keydown(function (e) { 

@@ -38,9 +38,17 @@ body {
 	cursor: pointer;
 }
 
-#flc-image-adjuster-container ul li a:hover, #flc-image-adjuster-controls a:focus, #flc-image-adjuster-controls a:hover, #flc-image-adjuster-container ul li a:focus {
+#flc-image-adjuster-container ul li a:hover, #flc-image-adjuster-controls a:hover, #flc-image-adjuster-container ul li a:focus {
 	background: #85B466;
 }
+
+#flc-image-adjuster-controls #flc-image-adjuster-apply-btn:hover, 
+#flc-image-adjuster-controls #flc-image-adjuster-cancel-btn:hover, 
+#flc-image-adjuster-controls #flc-image-adjuster-apply-btn:focus, 
+#flc-image-adjuster-controls #flc-image-adjuster-cancel-btn:focus {
+    background: #FFFF66;
+}
+
 
 #flc-image-adjuster-controls {
 	background: #85B466;
@@ -76,7 +84,7 @@ body {
 	padding: 0;
 }
 
-#flc-image-adjuster-controls #flc-image-adjuster-apply-btn, #flc-image-adjuster-controls #flc-image-adjuster-cancel-btn {
+#flc-image-adjuster-apply-btn, #flc-image-adjuster-cancel-btn {
 	background: #fff;
     border: 1px solid #000000;
     clear: both;
@@ -87,8 +95,38 @@ body {
 }
 
 a.shortcuts-link {
-  color: #88B569;
-  font-weight: bold;
-  text-align: right;  
+    font-size: 2em;
+    color: #88B569;
+    text-decoration: none;
+    font-weight: bold;
+    text-align: right;  
 }
 
+#flc-image-adjuster-shortcut-menu {
+    background: #fff;
+    border: 1px #000 solid;
+    font-size: 2em;
+    width: 20em;
+    float: right;
+    display: none;
+    position: absolute;
+    left: 22em;
+    top: 4em;
+}
+
+#flc-image-adjuster-shortcut-menu h2 {
+    background: #85B466;
+    margin: 0;
+}
+
+#flc-image-adjuster-shortcut-menu h3 {
+    margin: 0;
+    padding: 0;
+    clear: both;
+    float: left;
+}
+
+#flc-image-adjuster-shortcut-menu span.shortcut {
+    font-family: Courier;
+    float: right;
+}
