@@ -232,12 +232,6 @@ var editor = editor || {};
 
         });
 
-        imgSaveBtn.click(function (e) {
-            var url = that.canvas.toDataURL();
-            imgSaveBtn.attr('href', url);
-            imgSaveBtn.attr('target', '_blank');
-        });
-                
         applyChangesBtn.click(function () {
             editor.imageAdjuster.applyValues(that);
         });
@@ -271,7 +265,13 @@ var editor = editor || {};
 
         moreBtn.click(function (e) {
             
+            var url;
+
             e.preventDefault();
+
+            url = that.canvas.toDataURL();
+            imgSaveBtn.attr('href', url);
+            imgSaveBtn.attr('target', '_blank');
 
             menuWrap.hide();
             brightnessMenu.hide();
