@@ -39,7 +39,6 @@ var editor = editor || {};
             rotateMenu: '#flc-image-adjuster-rotate-controls',
             thresholdMenu: '#flc-image-adjuster-threshold-controls',
             brightnessInput: '[name=flc-image-adjuster-brightness]',
-            contrastInput: '[name=flc-image-adjuster-contrast]',
             rotationInput: '[name=flc-image-adjuster-rotation]',
             thresholdInput: '[name=flc-image-adjuster-threshold]',
             applyChangesBtn: '#flc-image-adjuster-apply-btn',
@@ -50,7 +49,6 @@ var editor = editor || {};
         },
         model: {
             brightness: 0,
-            contrast: 0,
             rotation: 0,
             threshold: 0
         },
@@ -63,10 +61,6 @@ var editor = editor || {};
 
         bounds = {
             'brightness': {
-                'min': -150,
-                'max': 150
-            },
-            'contrast': {
                 'min': -150,
                 'max': 150
             },
@@ -119,10 +113,6 @@ var editor = editor || {};
         
         return that;
          
-    };
-
-    editor.imageAdjuster.applyContrast = function (that) {
-        
     };
 
     editor.imageAdjuster.applyRotation = function (that) {
@@ -341,7 +331,6 @@ var editor = editor || {};
         that.pixels = that.imageData.data;
 
         editor.imageAdjuster.setValues(that);
-        editor.imageAdjuster.applyContrast(that); 
         editor.imageAdjuster.applyThreshold(that);
         editor.imageAdjuster.applyBrightness(that);
 
