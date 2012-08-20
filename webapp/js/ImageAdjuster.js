@@ -45,7 +45,10 @@ var editor = editor || {};
             cancelDialogBtn: '#flc-image-adjuster-cancel-btn',
             shortcutLink: '#flc-image-adjuster-shortcut-link',
             shortcutMenu: '#flc-image-adjuster-shortcut-menu',
-            imgSaveBtn: '#flc-image-adjuster-save-btn'
+            imgSaveBtn: '#flc-image-adjuster-save-btn',
+            moreBtn: '#flc-image-adjuster-more-btn',
+            moreMenu: '#flc-image-adjuster-more-menu',
+            exportTextArea: '#flc-image-adjuster-json-textarea' 
         },
         model: {
             brightness: 0,
@@ -163,7 +166,7 @@ var editor = editor || {};
 
     editor.imageAdjuster.bindEvents = function (that) {
 
-        var container, brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap, shortcutLink, shortcutMenu, cancelDialogBtn, imgSaveBtn;
+        var container, brightnessTab, brightnessMenu, rotateTab, rotateMenu, thresholdTab, thresholdMenu, applyChangesBtn, menuWrap, shortcutLink, shortcutMenu, cancelDialogBtn, imgSaveBtn, moreBtn, exportTextArea, moreMenu;
 
         container = that.locate('container');
 
@@ -185,8 +188,11 @@ var editor = editor || {};
         shortcutLink = that.locate('shortcutLink');
         shortcutMenu = that.locate('shortcutMenu');
 
+        moreBtn = that.locate('moreBtn');
+        moreMenu = that.locate('moreMenu');
         imgSaveBtn = that.locate('imgSaveBtn');
-
+        exportTextArea = that.locate('exportTextArea');
+        
         brightnessTab.click(function (e) {
             
             e.preventDefault();
@@ -195,6 +201,9 @@ var editor = editor || {};
             rotateMenu.hide();
             thresholdMenu.hide();
             brightnessMenu.show();
+            moreMenu.hide();
+            shortcutMenu.hide();
+
         });
 
         rotateTab.click(function (e) {
@@ -205,6 +214,9 @@ var editor = editor || {};
             brightnessMenu.hide();
             thresholdMenu.hide();
             rotateMenu.show();
+            moreMenu.hide();
+            shortcutMenu.hide();
+
         });
         
         thresholdTab.click(function (e) {
@@ -215,6 +227,9 @@ var editor = editor || {};
             brightnessMenu.hide();
             rotateMenu.hide();
             thresholdMenu.show();
+            moreMenu.hide();
+            shortcutMenu.hide();
+
         });
 
         imgSaveBtn.click(function (e) {
@@ -234,7 +249,10 @@ var editor = editor || {};
             menuWrap.hide();
             brightnessMenu.hide();
             rotateMenu.hide();
-            thresholdMenu.hide();    
+            thresholdMenu.hide();
+            shortcutMenu.hide();
+            moreMenu.hide();
+
         });
        
         
@@ -247,7 +265,23 @@ var editor = editor || {};
             rotateMenu.hide();
             thresholdMenu.hide();
             shortcutMenu.show();
+            moreMenu.hide();
         
+        });
+
+        moreBtn.click(function (e) {
+            
+            e.preventDefault();
+
+            menuWrap.hide();
+            brightnessMenu.hide();
+            rotateMenu.hide();
+            thresholdMenu.hide();
+            shortcutMenu.hide();
+            moreMenu.show();
+
+            exportTextArea.val(JSON.stringify(that.model));
+
         });
 
         $(document.body).keydown(function (e) { 
@@ -266,7 +300,7 @@ var editor = editor || {};
                 }
 
                 if(e.keyCode == 48) {
-                    //shortcut open
+                    shortcutLink.trigger('click');
                 }
             }
 

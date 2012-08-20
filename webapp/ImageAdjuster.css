@@ -6,6 +6,7 @@ body {
 }
 #flc-image-adjuster-container a {
     text-decoration: none;
+    color: #88B569;
 }
 #flc-image-adjuster-container {
     position: relative;
@@ -104,6 +105,16 @@ a.shortcuts-link {
     left: 4em;
     position: absolute;
     width: 20em;
+}
+#flc-image-adjuster-more-menu {
+   background: #fff;
+   border: 1px #000 solid;
+   display: none;
+   font-size: 2em;
+   left: 4em;
+   padding: 1em 2em;
+   position: absolute;
+   top: 4em;
 }
 #flc-image-adjuster-shortcut-menu h2 {
     background: #85B466;
