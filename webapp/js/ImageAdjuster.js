@@ -197,21 +197,30 @@ var editor = editor || {};
 
         imgSaveBtn = that.locate('imgSaveBtn');
 
-        brightnessTab.click(function () {
+        brightnessTab.click(function (e) {
+            
+            e.preventDefault();
+            
             menuWrap.show();
             rotateMenu.hide();
             thresholdMenu.hide();
             brightnessMenu.show();
         });
 
-        rotateTab.click(function () {
+        rotateTab.click(function (e) {
+
+            e.preventDefault();
+
             menuWrap.show();
             brightnessMenu.hide();
             thresholdMenu.hide();
             rotateMenu.show();
         });
         
-        thresholdTab.click(function () {
+        thresholdTab.click(function (e) {
+
+            e.preventDefault();
+
             menuWrap.show();
             brightnessMenu.hide();
             rotateMenu.hide();
@@ -228,7 +237,10 @@ var editor = editor || {};
             editor.imageAdjuster.applyValues(that);
         });
 
-        cancelDialogBtn.click(function () {
+        cancelDialogBtn.click(function (e) {
+            
+            e.preventDefault();
+
             menuWrap.hide();
             brightnessMenu.hide();
             rotateMenu.hide();
@@ -274,7 +286,7 @@ var editor = editor || {};
                 shortcutMenu.hide();
             }
 
-        }); 
+        });
     
         $('input').keydown(function (e) {
             
@@ -291,7 +303,7 @@ var editor = editor || {};
                 $(this).val(inputValue-1);    
             }
         
-        })
+        });
         
         return that;
 
